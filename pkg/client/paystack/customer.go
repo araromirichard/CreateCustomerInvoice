@@ -34,23 +34,24 @@ type Tax struct {
 }
 
 type Invoice struct {
-	ID            int        `json:"id"`
-	Domain        string     `json:"domain"`
-	Amount        Amount     `json:"amount"`
-	Currency      string     `json:"currency"`
-	DueDate       DateTime   `json:"due_date"`
-	HasInvoice    bool       `json:"has_invoice"`
-	InvoiceNumber int        `json:"invoice_number"`
-	Description   string     `json:"description"`
-	PdfUrl        string     `json:"pdf_url"`
-	LineItems     []LineItem `json:"line_items"`
-	Tax           []Tax      `json:"tax"`
-	Customer      Customer   `json:"customer"`
-	RequestCode   string     `json:"request_code"`
-	Status        string     `json:"status"`
-	Paid          bool       `json:"paid"`
-	PaidAt        DateTime   `json:"paid_at"`
-	CreatedAt     DateTime   `json:"created_at"`
+	ID               int        `json:"id"`
+	Domain           string     `json:"domain"`
+	Amount           Amount     `json:"amount"`
+	Currency         string     `json:"currency"`
+	DueDate          DateTime   `json:"due_date"`
+	HasInvoice       bool       `json:"has_invoice"`
+	InvoiceNumber    int        `json:"invoice_number"`
+	Description      string     `json:"description"`
+	PdfUrl           string     `json:"pdf_url"`
+	LineItems        []LineItem `json:"line_items"`
+	Tax              []Tax      `json:"tax"`
+	Customer         Customer   `json:"customer"`
+	RequestCode      string     `json:"request_code"`
+	Status           string     `json:"status"`
+	Paid             bool       `json:"paid"`
+	PaidAt           DateTime   `json:"paid_at"`
+	CreatedAt        DateTime   `json:"created_at"`
+	SendNotification bool       `json:"send_notification"`
 }
 type Meta struct {
 	Total     int `json:"total"`
