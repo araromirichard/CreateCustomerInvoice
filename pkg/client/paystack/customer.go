@@ -68,6 +68,10 @@ type ListInvoicesResponse struct {
 	Data    []Invoice `json:"data"`
 }
 
+type CreateInvoiceRequest struct {
+	Invoice Invoice `json:"data"`
+}
+
 type GetCustomerResponse struct {
 	Customer Customer `json:"data"`
 }
