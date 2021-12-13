@@ -30,14 +30,14 @@ jobs:
         run: |
           zip deployment.zip Create_invoices
             
-      # - name: default deploy
-      #   uses: appleboy/lambda-action@master
-      #   with:
-      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_region: ${{ secrets.AWS_REGION }}
-      #     function_name: Create_invoices
-      #     zip_file: deployment.zip
-      #     handler: Create_invoices
-      #     memory_size: 128
-      #     timeout: 10
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: Create_invoices
+          zip_file: deployment.zip
+          handler: Create_invoices
+          memory_size: 128
+          timeout: 10
