@@ -26,9 +26,9 @@ jobs:
       - name: Build
         run: go build -o Create_invoices
 
-      # - name: Package binary
-      #   run: |
-      #     zip deployment.zip Create_invoices
+      - name: Package binary
+        run: |
+          zip deployment.zip Create_invoices
             
       # - name: default deploy
       #   uses: appleboy/lambda-action@master
