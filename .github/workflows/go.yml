@@ -23,8 +23,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: go test -v ./...
 
-      # - name: Build
-      #   run: go build -o Create_invoices
+      - name: Build
+        run: go build -o Create_invoices
 
       # - name: Package binary
       #   run: |
