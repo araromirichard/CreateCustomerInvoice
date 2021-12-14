@@ -10,7 +10,7 @@ import (
 var client *paystack.Client
 
 func init() {
-	// this will be called once when the package is initialized. Better to do it in one place
+	
 	client = paystack.NewClient(os.Getenv("PAYSTACK_BASE_URL"), os.Getenv("PAYSTACK_SECRET_KEY"))
 }
 
@@ -39,7 +39,7 @@ func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, err
 		return nil, err
 	}
 
-	// ceate invoice 
+	// create invoice 
 	invoice, err := createCustomerInvoice(customerId, ciie)
 
 	if err != nil {

@@ -79,7 +79,7 @@ type CreateInvoiceRequest struct {
 }
 
 type CreateInvoiceResponse struct {
-	Invoice Invoice `json:"data"` // confirm from Paystack API that `data` field maps to Invoice struct
+	Invoice Invoice `json:"data"` 
 }
 
 type GetCustomerResponse struct {
