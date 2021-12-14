@@ -69,10 +69,23 @@ type ListInvoicesResponse struct {
 }
 
 type CreateInvoiceRequest struct {
-	Invoice Invoice `json:"data"`
+	CustomerEmail    string `json:"customer_email"`
+	CustomerId       string `json:"customer_id"`
+	Amount           int32  `json:"amount"`
+	Currency         string `json:"currency"`
+	DueDate          string `json:"due_date"`
+	SendNotification bool   `json:"send_notification"`
+	Draft            bool   `json:"draft"`
+}
+
+type CreateInvoiceResponse struct {
+	Invoice Invoice `json:"data"` // confirm from Paystack API that `data` field maps to Invoice struct
 }
 
 type GetCustomerResponse struct {
+	Customer Customer `json:"data"`
+}
+type CreateCustomerResponse struct {
 	Customer Customer `json:"data"`
 }
 

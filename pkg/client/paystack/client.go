@@ -49,18 +49,18 @@ func (cl *Client) GetCustomer(customerIdOrEmail string) (*GetCustomerResponse, e
 
 }
 
-func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) error {
+func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) (*CreateCustomerResponse, error) {
 
 	body, err := json.Marshal(ccq)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/customer", bytes.NewReader(body))
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	cl.addRequiredHeaders(req)
@@ -69,14 +69,19 @@ func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) error {
 	response, err := cl.client.Do(req)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
+	defer response.Body.Close()
 
 	if response.StatusCode == http.StatusOK || response.StatusCode == http.StatusCreated {
-		return nil
+		var ccr CreateCustomerResponse
+		if err = json.NewDecoder(response.Body).Decode(&ccr); err != nil{
+			return nil, err	
+		} 
+		return &ccr, nil
 	}
 
-	return fmt.Errorf("could not create customer. Invalid status : %d", response.StatusCode)
+	return nil, fmt.Errorf("could not create customer. Invalid status : %d", response.StatusCode)
 }
 
 func (cl *Client) addRequiredHeaders(req *http.Request) {
@@ -91,4 +96,37 @@ func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
 	}
 
 	return &customer, nil
+}
+
+func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceResponse,error) {
+
+	payload,_ := json.Marshal(ciq)
+
+	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/paymentrequest", bytes.NewReader(payload))
+
+	if err != nil {
+		return nil, err
+	}
+
+	cl.addRequiredHeaders(req)
+	req.Header.Add("Content-Type", "application/json")
+
+	response, err := cl.client.Do(req)
+
+	if err != nil {
+		return nil,err
+	}
+
+	defer response.Body.Close()
+
+	if response.StatusCode == http.StatusOK || response.StatusCode == http.StatusCreated {
+		var cir CreateInvoiceResponse
+
+		if err = json.NewDecoder(response.Body).Decode(&cir); err != nil {
+			return nil, err
+		}
+		return &cir, nil
+	}
+
+	return nil, fmt.Errorf("could not create Invoice. Invalid status : %d", response.StatusCode)
 }
