@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -127,6 +128,6 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 		}
 		return &cir, nil
 	}
-
-	return nil, fmt.Errorf("could not create Invoice. Invalid status : %d", response.StatusCode)
+	body,_ := ioutil.ReadAll(response.Body)
+	return nil, fmt.Errorf("could not create Invoice. Invalid status : %d, %s", response.StatusCode, string(body))
 }
