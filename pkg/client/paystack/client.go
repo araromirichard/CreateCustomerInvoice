@@ -104,6 +104,11 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 
 	payload, _ := json.Marshal(ciq)
 
+	log.Printf("Payload for createInvoice: %s \n", string(payload))
+
+	fmt.Printf("Payload for createInvoice: %s \n", string(payload))
+
+	
 	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/paymentrequest", bytes.NewReader(payload))
 
 	if err != nil {
