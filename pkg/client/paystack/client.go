@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -76,9 +77,9 @@ func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) (*CreateCustomerResp
 
 	if response.StatusCode == http.StatusOK || response.StatusCode == http.StatusCreated {
 		var ccr CreateCustomerResponse
-		if err = json.NewDecoder(response.Body).Decode(&ccr); err != nil{
-			return nil, err	
-		} 
+		if err = json.NewDecoder(response.Body).Decode(&ccr); err != nil {
+			return nil, err
+		}
 		return &ccr, nil
 	}
 
@@ -99,9 +100,9 @@ func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
 	return &customer, nil
 }
 
-func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceResponse,error) {
+func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceResponse, error) {
 
-	payload,_ := json.Marshal(ciq)
+	payload, _ := json.Marshal(ciq)
 
 	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/paymentrequest", bytes.NewReader(payload))
 
@@ -115,7 +116,7 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 	response, err := cl.client.Do(req)
 
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 
 	defer response.Body.Close()
@@ -128,6 +129,8 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 		}
 		return &cir, nil
 	}
-	body,_ := ioutil.ReadAll(response.Body)
+	body, _ := ioutil.ReadAll(response.Body)
+
+	log.Printf("response from paystack: %s \n", string(body))
 	return nil, fmt.Errorf("could not create Invoice. Invalid status : %d, %s", response.StatusCode, string(body))
 }
