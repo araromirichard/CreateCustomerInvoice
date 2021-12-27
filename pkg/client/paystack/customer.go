@@ -69,8 +69,7 @@ type ListInvoicesResponse struct {
 }
 
 type CreateInvoiceRequest struct {
-	CustomerEmail    string `json:"customer_email"`
-	CustomerId       string `json:"customer_id"`
+	CustomerId       string `json:"customer"`
 	Amount           int32  `json:"amount"`
 	Currency         string `json:"currency"`
 	DueDate          string `json:"due_date"`
