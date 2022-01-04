@@ -16,7 +16,7 @@ func init() {
 
 type CreateInvoiceInputEvent struct {
 	CustomerEmail    string `json:"customer_email"`
-	CustomerId       int32  `json:"customer_id"`
+	CustomerId       string `json:"customer_id"`
 	Amount           int32  `json:"amount"`
 	Currency         string `json:"currency"`
 	DueDate          string `json:"due_date"`

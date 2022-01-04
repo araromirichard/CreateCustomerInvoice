@@ -21,8 +21,8 @@ func NewClient(baseUrl, secretKey string) *Client {
 
 }
 
-func (cl *Client) GetCustomer(customerIdOrEmail string) (*GetCustomerResponse, error) {
-	req, err := http.NewRequest(http.MethodGet, cl.baseUrl+"/customer/"+customerIdOrEmail, nil)
+func (cl *Client) GetCustomer(customerEmail string) (*GetCustomerResponse, error) {
+	req, err := http.NewRequest(http.MethodGet, cl.baseUrl+"/customer/"+customerEmail, nil)
 
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
 		return nil, err
 	}
 	body, _ := ioutil.ReadAll(response.Body)
-	log.Printf("Get customer response from Paystack: %s \n", string(body) )
+	log.Printf("Get customer response from Paystack: %s \n", string(body))
 	return &customer, nil
 }
 
