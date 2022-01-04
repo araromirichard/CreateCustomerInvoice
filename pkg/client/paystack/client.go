@@ -18,6 +18,7 @@ type Client struct {
 func NewClient(baseUrl, secretKey string) *Client {
 
 	return &Client{*http.DefaultClient, baseUrl, secretKey}
+
 }
 
 func (cl *Client) GetCustomer(customerIdOrEmail string) (*GetCustomerResponse, error) {
@@ -89,6 +90,7 @@ func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) (*CreateCustomerResp
 func (cl *Client) addRequiredHeaders(req *http.Request) {
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", cl.secretKey))
 	req.Header.Add("Accept", "application/json")
+
 }
 
 func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
@@ -105,8 +107,7 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 	payload, _ := json.Marshal(ciq)
 
 	log.Printf("Payload for createInvoice: %s \n", string(payload))
-	log.Printf("Paystack BaseURL: %s \n", cl.baseUrl+"/customer/"+ciq.CustomerId)
-	log.Printf("Header Request From Paystack: %s \n", cl.secretKey)
+
 	fmt.Printf("Payload for createInvoice: %s \n", string(payload))
 
 	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/paymentrequest", bytes.NewReader(payload))
