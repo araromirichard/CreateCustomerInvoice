@@ -98,7 +98,8 @@ func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
 	if err := json.NewDecoder(response.Body).Decode(&customer); err != nil {
 		return nil, err
 	}
-
+body, _ := ioutil.ReadAll(response.Body)
+log.Printf("Get customer response from Paystack: %s \n", string(body) )
 	return &customer, nil
 }
 
@@ -108,7 +109,7 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 
 	log.Printf("Payload for createInvoice: %s \n", string(payload))
 
-	fmt.Printf("Payload for createInvoice: %s \n", string(payload))
+	//fmt.Printf("Payload for createInvoice: %s \n", string(payload))
 
 	req, err := http.NewRequest(http.MethodPost, cl.baseUrl+"/paymentrequest", bytes.NewReader(payload))
 
