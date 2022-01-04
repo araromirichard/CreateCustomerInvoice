@@ -45,7 +45,7 @@ func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, err
 	if err != nil {
 		return nil, err
 	}
-
+ 
 	return &CreateInvoiceOutputEvent{"Customer invoice successfully created", invoice}, nil
 }
 
