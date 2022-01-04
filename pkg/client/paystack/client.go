@@ -98,8 +98,8 @@ func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
 	if err := json.NewDecoder(response.Body).Decode(&customer); err != nil {
 		return nil, err
 	}
-body, _ := ioutil.ReadAll(response.Body)
-log.Printf("Get customer response from Paystack: %s \n", string(body) )
+	body, _ := ioutil.ReadAll(response.Body)
+	log.Printf("Get customer response from Paystack: %s \n", string(body) )
 	return &customer, nil
 }
 

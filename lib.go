@@ -10,14 +10,13 @@ import (
 var client *paystack.Client
 
 func init() {
-	
+
 	client = paystack.NewClient(os.Getenv("PAYSTACK_BASE_URL"), os.Getenv("PAYSTACK_SECRET_KEY"))
 }
 
-
 type CreateInvoiceInputEvent struct {
 	CustomerEmail    string `json:"customer_email"`
-	CustomerId       string `json:"customer_id"`
+	CustomerId       int32  `json:"customer_id"`
 	Amount           int32  `json:"amount"`
 	Currency         string `json:"currency"`
 	DueDate          string `json:"due_date"`
@@ -26,12 +25,12 @@ type CreateInvoiceInputEvent struct {
 }
 
 type CreateInvoiceOutputEvent struct {
-	Message string `json:"message"`
+	Message string            `json:"message"`
 	Invoice *paystack.Invoice `json:"data"`
 }
 
 func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, error) {
-	
+
 	// get or create customer
 	customerId, err := getOrCreateCustomer(ciie.CustomerId, ciie.CustomerEmail)
 
@@ -39,13 +38,13 @@ func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, err
 		return nil, err
 	}
 
-	// create invoice 
+	// create invoice
 	invoice, err := createCustomerInvoice(customerId, ciie)
 
 	if err != nil {
 		return nil, err
 	}
- 
+
 	return &CreateInvoiceOutputEvent{"Customer invoice successfully created", invoice}, nil
 }
 
@@ -57,7 +56,7 @@ func getOrCreateCustomer(customerId, customerEmail string) (string, error) {
 	if err != nil {
 
 		if err == paystack.ErrCustomerNotFound {
-			ccr, err := client.CreateCustomer(paystack.CreateCustomerRequest{Email:customerEmail})
+			ccr, err := client.CreateCustomer(paystack.CreateCustomerRequest{Email: customerEmail})
 
 			if err != nil {
 				return "", err
@@ -72,16 +71,16 @@ func getOrCreateCustomer(customerId, customerEmail string) (string, error) {
 }
 
 func createCustomerInvoice(customerId string, ciie CreateInvoiceInputEvent) (*paystack.Invoice, error) {
-// payload
-cri := paystack.CreateInvoiceRequest{
-	DueDate: ciie.DueDate,
-	Amount: ciie.Amount,
-	Currency: ciie.Currency,
-	SendNotification: ciie.SendNotification,
-	Draft: ciie.Draft,
-	CustomerId: customerId,
-}
-crr, err := client.CreateInvoice(cri)
+	// payload
+	cri := paystack.CreateInvoiceRequest{
+		DueDate:          ciie.DueDate,
+		Amount:           ciie.Amount,
+		Currency:         ciie.Currency,
+		SendNotification: ciie.SendNotification,
+		Draft:            ciie.Draft,
+		CustomerId:       customerId,
+	}
+	crr, err := client.CreateInvoice(cri)
 
 	if err != nil {
 		return nil, err
