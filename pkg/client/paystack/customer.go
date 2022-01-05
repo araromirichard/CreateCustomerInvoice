@@ -1,22 +1,34 @@
 package paystack
 
-import "errors"
-
+import (
+	"errors"
+	"time"
+)
 
 var ErrCustomerNotFound = errors.New("Customer with ID/Email not found")
 
 type Customer struct {
-	ID                       int    `json:"id"`
-	FirstName                string `json:"first_name"`
-	LastName                 string `json:"last_name"`
-	Email                    string `json:"email"`
-	Code                     string `json:"customer_code"`
-	Phone                    string `json:"phone"`
-	RiskAction               string `json:"risk_action"`
-	InternationalFormatPhone string `json:"international_format_phone"`
-	Metadata                 struct {
-		CallingCode string `json:"calling_code"`
+	Transactions   []interface{} `json:"transactions"`
+	Subscriptions  []interface{} `json:"subscriptions"`
+	Authorizations []interface{} `json:"authorizations"`
+	FirstName      string        `json:"first_name"`
+	LastName       string        `json:"last_name"`
+	Email          string        `json:"email"`
+	Phone          string        `json:"phone"`
+	Metadata       struct {
 	} `json:"metadata"`
+	Domain                string        `json:"domain"`
+	CustomerCode          string        `json:"customer_code"`
+	RiskAction            string        `json:"risk_action"`
+	ID                    int           `json:"id"`
+	Integration           int           `json:"integration"`
+	CreatedAt             time.Time     `json:"createdAt"`
+	UpdatedAt             time.Time     `json:"updatedAt"`
+	TotalTransactions     int           `json:"total_transactions"`
+	TotalTransactionValue []interface{} `json:"total_transaction_value"`
+	DedicatedAccount      interface{}   `json:"dedicated_account"`
+	Identified            bool          `json:"identified"`
+	Identifications       interface{}   `json:"identifications"`
 }
 
 type Amount int
@@ -78,11 +90,13 @@ type CreateInvoiceRequest struct {
 }
 
 type CreateInvoiceResponse struct {
-	Invoice Invoice `json:"data"` 
+	Invoice Invoice `json:"data"`
 }
 
 type GetCustomerResponse struct {
-	Customer Customer `json:"data"`
+	Status  bool     `json:"status"`
+	Message string   `json:"message"`
+	Data    Customer `json:"data"`
 }
 type CreateCustomerResponse struct {
 	Customer Customer `json:"data"`

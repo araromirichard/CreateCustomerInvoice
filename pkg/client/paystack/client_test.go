@@ -47,7 +47,7 @@ func TestClient_GetCustomer(t *testing.T) {
 		name    string
 		cl      *Client
 		args    args
-		want    *GetCustomerResponse
+		want    int
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -61,17 +61,7 @@ func TestClient_GetCustomer(t *testing.T) {
 			args: args{
 				customerEmail: "sederyn@gmail.com",
 			},
-			want: &GetCustomerResponse{
-				Customer: Customer{
-					ID:         63863064,
-					FirstName:  "Richard",
-					LastName:   "Gbegede",
-					Email:      "sederyn@gmail.com",
-					Code:       "CUS_o13f0zmewiauk7r",
-					Phone:      "07012205938",
-					RiskAction: "default",
-				},
-			},
+			want:    http.StatusOK,
 			wantErr: false,
 		},
 	}
@@ -84,6 +74,48 @@ func TestClient_GetCustomer(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Client.GetCustomer() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_CreateCustomer(t *testing.T) {
+	type args struct {
+		ccq CreateCustomerRequest
+	}
+	tests := []struct {
+		name    string
+		cl      *Client
+		args    args
+		want    int
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Basic",
+			cl: &Client{
+				client:    *http.DefaultClient,
+				baseUrl:   "https://api.paystack.co",
+				secretKey: "sk_test_1374752eb291108be0fff0424ca81369b0f266ac",
+			},
+			args: args{
+				ccq: CreateCustomerRequest{
+					Email: "sederyn@gmail.com",
+				},
+			},
+			want: http.StatusOK,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := tt.cl.CreateCustomer(tt.args.ccq)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.CreateCustomer() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Client.CreateCustomer() = %v, want %v", got, tt.want)
 			}
 		})
 	}

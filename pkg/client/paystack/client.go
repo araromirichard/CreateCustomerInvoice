@@ -38,18 +38,40 @@ func (cl *Client) GetCustomer(customerEmail string) (*GetCustomerResponse, error
 
 	defer response.Body.Close()
 
-	switch response.StatusCode {
-	case http.StatusNotFound:
+	if response.StatusCode == http.StatusNotFound {
 		return nil, ErrCustomerNotFound
-	case http.StatusUnauthorized:
-		return nil, fmt.Errorf("invalid secret key")
-	case http.StatusOK:
-		return getCustomer(response)
-	default:
-		return nil, fmt.Errorf("unknown response code: %d", response.StatusCode)
+
+	}
+	if response.StatusCode == http.StatusOK {
+
+		var customer GetCustomerResponse
+
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			return nil, err
+		}
+		log.Printf("Get customer response from Paystack: %s \n", string(body))
+
+		if err := json.NewDecoder(response.Body).Decode(&customer); err != nil {
+			return nil, err
+		}
+
+		return &customer, nil
 
 	}
 
+	// switch response.StatusCode {
+	// case http.StatusNotFound:
+	// 	return nil, ErrCustomerNotFound
+	// case http.StatusUnauthorized:
+	// 	return nil, fmt.Errorf("invalid secret key")
+	// case http.StatusOK:
+	// 	return getCustomer(response)
+	// default:
+	// 	return nil, fmt.Errorf("unknown response code: %d", response.StatusCode)
+
+	// }
+		return nil, err
 }
 
 func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) (*CreateCustomerResponse, error) {
@@ -91,16 +113,6 @@ func (cl *Client) addRequiredHeaders(req *http.Request) {
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", cl.secretKey))
 	req.Header.Add("Accept", "application/json")
 
-}
-
-func getCustomer(response *http.Response) (*GetCustomerResponse, error) {
-	var customer GetCustomerResponse
-	if err := json.NewDecoder(response.Body).Decode(&customer); err != nil {
-		return nil, err
-	}
-	body, _ := ioutil.ReadAll(response.Body)
-	log.Printf("Get customer response from Paystack: %s \n", string(body))
-	return &customer, nil
 }
 
 func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceResponse, error) {
