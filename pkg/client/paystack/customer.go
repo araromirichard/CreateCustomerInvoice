@@ -90,9 +90,9 @@ type CreateInvoiceRequest struct {
 }
 
 type CreateInvoiceResponse struct {
-	Status  bool     `json:"status"`
-	Message string   `json:"message"`
-	Data Invoice `json:"data"`
+	Status  bool    `json:"status"`
+	Message string  `json:"message"`
+	Data    Invoice `json:"data"`
 }
 
 type GetCustomerResponse struct {
