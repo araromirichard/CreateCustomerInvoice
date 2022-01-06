@@ -86,5 +86,5 @@ func createCustomerInvoice(customerId string, ciie CreateInvoiceInputEvent) (*pa
 		return nil, err
 	}
 
-	return &crr.Invoice, nil
+	return &crr.Data, nil
 }
