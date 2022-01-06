@@ -16,7 +16,7 @@ func init() {
 
 type CreateInvoiceInputEvent struct {
 	CustomerEmail    string `json:"customer_email"`
-	CustomerId       string `json:"customer_id"`
+	CustomerID       string `json:"customer_id"`
 	Amount           int32  `json:"amount"`
 	Currency         string `json:"currency"`
 	DueDate          string `json:"due_date"`
@@ -32,7 +32,7 @@ type CreateInvoiceOutputEvent struct {
 func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, error) {
 
 	// get or create customer
-	customerId, err := getOrCreateCustomer(ciie.CustomerId, ciie.CustomerEmail)
+	customerId, err := getOrCreateCustomer(ciie.CustomerID, ciie.CustomerEmail)
 
 	if err != nil {
 		return nil, err
