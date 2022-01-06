@@ -96,9 +96,34 @@ type CreateInvoiceResponse struct {
 }
 
 type GetCustomerResponse struct {
-	Status  bool     `json:"status"`
-	Message string   `json:"message"`
-	Data    Customer `json:"data"`
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	Data    struct {
+		ID            int       `json:"id"`
+		Domain        string    `json:"domain"`
+		Amount        int       `json:"amount"`
+		Currency      string    `json:"currency"`
+		DueDate       time.Time `json:"due_date"`
+		HasInvoice    bool      `json:"has_invoice"`
+		InvoiceNumber int       `json:"invoice_number"`
+		Description   string    `json:"description"`
+		LineItems     []struct {
+			Name   string `json:"name"`
+			Amount int    `json:"amount"`
+		} `json:"line_items"`
+		Tax []struct {
+			Name   string `json:"name"`
+			Amount int    `json:"amount"`
+		} `json:"tax"`
+		RequestCode      string        `json:"request_code"`
+		Status           string        `json:"status"`
+		Paid             bool          `json:"paid"`
+		Metadata         interface{}   `json:"metadata"`
+		Notifications    []interface{} `json:"notifications"`
+		OfflineReference string        `json:"offline_reference"`
+		Customer         int           `json:"customer"`
+		CreatedAt        time.Time     `json:"created_at"`
+	} `json:"data"`
 }
 type CreateCustomerResponse struct {
 	Status  bool   `json:"status"`
