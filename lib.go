@@ -61,7 +61,7 @@ func getOrCreateCustomer(customerId, customerEmail string) (string, error) {
 			if err != nil {
 				return "", err
 			}
-			cId = strconv.Itoa(ccr.Customer.ID)
+			cId = strconv.Itoa(ccr.Data.ID)
 		} else {
 			return "", err
 		}

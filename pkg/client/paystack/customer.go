@@ -99,7 +99,17 @@ type GetCustomerResponse struct {
 	Data    Customer `json:"data"`
 }
 type CreateCustomerResponse struct {
-	Customer Customer `json:"data"`
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	Data    struct {
+		Email        string    `json:"email"`
+		Integration  int       `json:"integration"`
+		Domain       string    `json:"domain"`
+		CustomerCode string    `json:"customer_code"`
+		ID           int       `json:"id"`
+		CreatedAt    time.Time `json:"createdAt"`
+		UpdatedAt    time.Time `json:"updatedAt"`
+	} `json:"data"`
 }
 
 type CreateCustomerRequest struct {

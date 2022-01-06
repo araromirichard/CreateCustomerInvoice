@@ -52,7 +52,7 @@ func (cl *Client) GetCustomer(customerEmail string) (*GetCustomerResponse, error
 		}
 		log.Printf("Get customer response from Paystack: %s \n", string(body))
 
-		if err := json.NewDecoder(response.Body).Decode(&customer); err != nil {
+		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&customer); err != nil {
 			return nil, err
 		}
 
