@@ -92,7 +92,7 @@ type CreateInvoiceRequest struct {
 type CreateInvoiceResponse struct {
 	Status  bool     `json:"status"`
 	Message string   `json:"message"`
-	Invoice Invoice `json:"data"`
+	Data Invoice `json:"data"`
 }
 
 type GetCustomerResponse struct {
