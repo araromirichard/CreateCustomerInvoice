@@ -58,10 +58,10 @@ func Test_createCustomerInvoice(t *testing.T) {
 		{
 			name: "Basic",
 			args: args{
-				customerId: "",
+				customerId: "63863064",
 				ciie: CreateInvoiceInputEvent{
-					CustomerEmail:    "sedoryn@gmail.com",
-					CustomerId:       "",
+					CustomerEmail:    "sederyn@gmail.com",
+					CustomerId:       "63863064",
 					Amount:           4000,
 					Currency:         "NGN",
 					DueDate:          "2022-12-29",
