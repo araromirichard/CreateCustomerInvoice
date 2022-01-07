@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -46,7 +47,7 @@ func (cl *Client) GetCustomer(customerEmail string) (*GetCustomerResponse, error
 
 		var customer GetCustomerResponse
 
-		body, err := ioutil.ReadAll(response.Body)
+		body, err := io.ReadAll(response.Body)
 		if err != nil {
 			return nil, err
 		}
@@ -71,7 +72,7 @@ func (cl *Client) GetCustomer(customerEmail string) (*GetCustomerResponse, error
 	// 	return nil, fmt.Errorf("unknown response code: %d", response.StatusCode)
 
 	// }
-		return nil, err
+	return nil, err
 }
 
 func (cl *Client) CreateCustomer(ccq CreateCustomerRequest) (*CreateCustomerResponse, error) {
