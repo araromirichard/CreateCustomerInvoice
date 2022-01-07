@@ -50,7 +50,7 @@ func createInvoice(ciie CreateInvoiceInputEvent) (*CreateInvoiceOutputEvent, err
 func getOrCreateCustomer(customerId, customerEmail string) (string, error) {
 	cId := customerId
 
-	_, err := client.GetCustomer(customerId)
+	_, err := client.GetCustomer(customerEmail)
 
 	if err != nil {
 

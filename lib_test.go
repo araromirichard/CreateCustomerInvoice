@@ -58,10 +58,10 @@ func Test_createCustomerInvoice(t *testing.T) {
 		{
 			name: "Basic",
 			args: args{
-				customerId: "63863064",
+				customerId: "",
 				ciie: CreateInvoiceInputEvent{
-					CustomerEmail:    "sederyn@gmail.com",
-					CustomerId:       "63863064",
+					CustomerEmail:    "sedoryn@gmail.com",
+					CustomerId:       "",
 					Amount:           4000,
 					Currency:         "NGN",
 					DueDate:          "2022-12-29",
@@ -79,6 +79,42 @@ func Test_createCustomerInvoice(t *testing.T) {
 				return
 			}
 
+		})
+	}
+}
+
+func Test_getOrCreateCustomer(t *testing.T) {
+	type args struct {
+		customerId    string
+		customerEmail string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		//want    string
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Basic",
+			args: args{
+				customerId:    "",
+				customerEmail: "sedoruna@test.com",
+			},
+			wantErr: false,
+		},
+
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := getOrCreateCustomer(tt.args.customerId, tt.args.customerEmail)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("getOrCreateCustomer() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			// if got != tt.want {
+			// 	t.Errorf("getOrCreateCustomer() = %v, want %v", got, tt.want)
+			// }
 		})
 	}
 }
