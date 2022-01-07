@@ -141,16 +141,18 @@ func (cl *Client) CreateInvoice(ciq CreateInvoiceRequest) (*CreateInvoiceRespons
 
 	defer response.Body.Close()
 
+	body, _ := ioutil.ReadAll(response.Body)
+
+	log.Printf("response from paystack: %s \n", string(body))
+
 	if response.StatusCode == http.StatusOK || response.StatusCode == http.StatusCreated {
 		var cir CreateInvoiceResponse
 
-		if err = json.NewDecoder(response.Body).Decode(&cir); err != nil {
+		if err = json.Unmarshal(body, &cir); err != nil {
 			return nil, err
 		}
 		return &cir, nil
 	}
-	body, _ := ioutil.ReadAll(response.Body)
-
-	log.Printf("response from paystack: %s \n", string(body))
+	
 	return nil, fmt.Errorf("could not create Invoice. Invalid status : %d, %s", response.StatusCode, string(body))
 }

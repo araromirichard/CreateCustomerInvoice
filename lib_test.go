@@ -13,29 +13,69 @@ func Test_createInvoice(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
-		// {
-		// 	name: "Basic",
-		// 	args: args{
-		// 		ciie: CreateInvoiceInputEvent{
-		// 			CustomerEmail:    "sederyn@gmail.com",
-		// 			CustomerId:       "63863064",
-		// 			Amount:           4000,
-		// 			Currency:         "NGN",
-		// 			DueDate:          "2022-02-15",
-		// 			SendNotification: true,
-		// 			Draft:            true,
-		// 		},
-		// 	},
+		//TODO: Add test cases.
+		{
+			name: "Basic",
+			args: args{
+				ciie: CreateInvoiceInputEvent{
+					CustomerEmail:    "sederyn@gmail.com",
+					CustomerId:       "63863064",
+					Amount:           4000,
+					Currency:         "NGN",
+					DueDate:          "2022-02-15",
+					SendNotification: true,
+					Draft:            true,
+				},
+			},
 
-		// 	wantErr: false,
-		// },
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_, err := createInvoice(tt.args.ciie)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("createInvoice() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+		})
+	}
+}
+
+func Test_createCustomerInvoice(t *testing.T) {
+	type args struct {
+		customerId string
+		ciie       CreateInvoiceInputEvent
+	}
+	tests := []struct {
+		name string
+		args args
+		//want    *paystack.Invoice
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Basic",
+			args: args{
+				customerId: "63863064",
+				ciie: CreateInvoiceInputEvent{
+					CustomerEmail:    "sederyn@gmail.com",
+					CustomerId:       "63863064",
+					Amount:           4000,
+					Currency:         "NGN",
+					DueDate:          "2022-12-29",
+					SendNotification: false,
+					Draft:            false,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := createCustomerInvoice(tt.args.customerId, tt.args.ciie)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("createCustomerInvoice() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 

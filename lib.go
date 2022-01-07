@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"strconv"
 
 	"github.com/karosaxy/paystack-client/pkg/client/paystack"
@@ -11,7 +10,7 @@ var client *paystack.Client
 
 func init() {
 
-	client = paystack.NewClient(os.Getenv("PAYSTACK_BASE_URL"), os.Getenv("PAYSTACK_SECRET_KEY"))
+	client = paystack.NewClient("https://api.paystack.co", "sk_test_1374752eb291108be0fff0424ca81369b0f266ac")
 }
 
 type CreateInvoiceInputEvent struct {

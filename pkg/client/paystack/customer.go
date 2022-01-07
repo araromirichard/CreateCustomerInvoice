@@ -57,7 +57,7 @@ type Invoice struct {
 	PdfUrl           string     `json:"pdf_url"`
 	LineItems        []LineItem `json:"line_items"`
 	Tax              []Tax      `json:"tax"`
-	Customer         Customer   `json:"customer"`
+	Customer         int   `json:"customer"`
 	RequestCode      string     `json:"request_code"`
 	Status           string     `json:"status"`
 	Paid             bool       `json:"paid"`
