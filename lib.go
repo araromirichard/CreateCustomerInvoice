@@ -1,6 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strconv"
 
 	"github.com/karosaxy/paystack-client/pkg/client/paystack"
@@ -85,5 +90,37 @@ func createCustomerInvoice(customerId string, ciie CreateInvoiceInputEvent) (*pa
 		return nil, err
 	}
 
+	//send Response body to a webhook
+	postBody, err := json.Marshal(crr)
+
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := http.Post("https://webhook.site/a1b30d87-faeb-4dbc-8025-5f370470a0d5", "application/json", bytes.NewBuffer(postBody))
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusCreated {
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			//Failed to read response.
+			return nil, err
+		}
+
+		//Convert bytes to String and print
+		jsonStr := string(body)
+		fmt.Println("Response: ", jsonStr)
+
+	} else {
+		//The status is not Created. print the error.
+		fmt.Println("Get failed with error: ", resp.Status)
+	}
+
 	return &crr.Invoice, nil
 }
+
